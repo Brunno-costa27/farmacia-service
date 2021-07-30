@@ -26,13 +26,15 @@ async function pegarTodosFuncionario(){
 
 }
 
-async function pegarTodosHistoricoPeloCpf(id){
+async function pegarTodosHistoricoPeloCpf(cpf){
 
     try { 
      
      await db.connect();
-     const result =  await db.query(`select * from historico where id_cpf = ${id}`);
+     const result =  await db.query(`select * from historico where id_cpf = ${cpf}`);
      return result;
+
+     
 
     } catch (error) {
         
@@ -41,9 +43,9 @@ async function pegarTodosHistoricoPeloCpf(id){
 
 }
 
-async function obterFuncionarioPeloId(id){
+async function obterFuncionarioPeloId(cpf){
 
-    const id1 = id;    
+    const id1 = cpf;    
     try {
      await db.connect();
      const result =  await db.query(`SELECT * FROM funcionario WHERE cpf = ${id1}`);
@@ -56,12 +58,12 @@ async function obterFuncionarioPeloId(id){
 
 }
 
-async function deletarFuncionario(id){
+async function deletarFuncionario(cpf){
 
-    const id2 = id; 
+   
     try {
      await db.connect();
-     const result =  await db.query(`DELETE  FROM funcionario WHERE cpf = ${id2}`);
+     const result =  await db.query(`DELETE  FROM funcionario WHERE cpf = ${cpf}`);
      return result;
 
     } catch (error) {
@@ -86,12 +88,12 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
 }
 
-async function atualizarFuncionario(id,nome){
+async function atualizarFuncionario(cpf,nome){
 
-    const id2 = id; 
+
     try {
      await db.connect();
-     const result =  await db.query(`UPDATE funcionario SET nome = '${nome}' WHERE cpf = ${id}`);
+     const result =  await db.query(`UPDATE funcionario SET nome = '${nome}' WHERE cpf = ${cpf}`);
      return result;
 
     } catch (error) {

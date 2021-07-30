@@ -21,10 +21,10 @@ module.exports = (app, repository) => {
 
     });
 
-    app.get('/pacientes', async (req, res) => {
+    app.get('/funcionario', async (req, res) => {
 
         try {
-            const paciente = await repository.pegarTodosPacientes();
+            const paciente = await repository.pegarTodosFuncionario();
             res.json(paciente);
         } catch (error) {
             res.status(400).send();
@@ -32,32 +32,32 @@ module.exports = (app, repository) => {
 
     });
 
-    app.get('/pacientes/:id', async (req, res) => {
+    app.get('/funcionario/:cpf', async (req, res) => {
 
-        const uuid = req.params.id;
+        const cpf = req.params.cpf;
         try {
-            const id = await repository.obterPacienteId(uuid);
-            res.json(id);
+            const funcionario = await repository.obterFuncionarioPelofuncionario(cpf);
+            res.json(funcionario);
         } catch (error) {
             res.status(400).send();
         }
     });
 
-    app.delete('/pacientes/:id', async (req, res) => {
+    app.delete('/funcionario/:cpf', async (req, res) => {
 
-        const uuid = req.params.id;
+        const cpf = req.params.cpf;
         try {
-            const id = await repository.deletarPaciente(uuid);
-            res.json(id);
+            const funcionario = await repository.deletarFuncionario(cpf);
+            res.json(funcionario);
         } catch (error) {
             res.status(400).send();
         }
     });
 
-    app.get('/requisicoes/:id', async (req, res) => {
-        const id = req.params.id;
+    app.get('/historico/:cpf', async (req, res) => {
+        const cpf = req.params.cpf;
         try {
-            const paciente = await repository.pegarTodasRequisicoes(id);
+            const paciente = await repository.pegarTodosHistoricoPeloCpf(cpf);
             res.json(paciente);
         } catch (error) {
             res.status(400).send();
@@ -65,11 +65,11 @@ module.exports = (app, repository) => {
 
     });
 
-    app.put('/pacientes/:id', async (req, res) => {
-        const id = req.params.id;
+    app.put('/funcionario/:cpf', async (req, res) => {
+        const cpf = req.params.cpf;
         const { nome } = req.body;
         try {
-            const paciente = await repository.atualizarPaciente(id, nome);
+            const paciente = await repository.atualizarFuncionario(cpf, nome);
             res.json(paciente);
         } catch (error) {
             res.status(400).send();
@@ -78,13 +78,13 @@ module.exports = (app, repository) => {
 
     app.post('/autenticacao', async (req, res) => {
 
-        const pacienteExiste = await repository.pegarTodosPacientes();
+        const funcionarioExiste = await repository.pegarTodosFuncionario();
 
-        const { nome, senha } = req.body;
+        const { cpf, senha } = req.body;
 
-        const pacienteAlreadyExists = pacienteExiste.find((user) => user.nome === nome && user.senha === senha);
-        if(pacienteAlreadyExists){
-            res.status(200).json(pacienteAlreadyExists);
+        const funcionarioAlreadyExists = funcionarioExiste.find((user) => user.cpf === cpf && user.senha === senha);
+        if(funcionarioAlreadyExists){
+            res.status(200).json(funcionarioAlreadyExists);
         }else{
             res.status(400).json({message: "paciente não existe!"});
         }
