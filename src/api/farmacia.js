@@ -36,7 +36,7 @@ module.exports = (app, repository) => {
 
         const cpf = req.params.cpf;
         try {
-            const funcionario = await repository.obterFuncionarioPelofuncionario(cpf);
+            const funcionario = await repository.obterFuncionarioPeloId(cpf);
             res.json(funcionario);
         } catch (error) {
             res.status(400).send();
