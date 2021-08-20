@@ -5,11 +5,9 @@ module.exports = (app, repository) => {
         const funcionarioExiste = await repository.pegarTodosFuncionario();
 
         const { cpf,nome,senha,cargo } = req.body;
-        var convertidoCpf = parseInt(cpf);
-        var convertidoSenha = parseInt(senha);
-        console.log(convertidoCpf,nome,convertidoSenha,cargo);
+        console.log(cpf,nome,senha,cargo);
 
-        const alreadyExists = funcionarioExiste.some((func) => func.cpf === convertidoCpf);
+        const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
         if (alreadyExists) {
             return res.json({ error: 'funcionario already exists' });

@@ -4,7 +4,7 @@ async function pegarTodosHistorico(){
 
     try {   
      await db.connect();
-     const result =  await db.query("SELECT * FROM historico");
+     const result =  await db.query("SELECT * FROM historicos");
      return result;
 
     } catch (error) {
@@ -17,7 +17,7 @@ async function pegarTodosFuncionario(){
 
     try {   
      await db.connect();
-     const result =  await db.query("SELECT * FROM funcionario");
+     const result =  await db.query("SELECT * FROM funcionarios");
      return result;
 
     } catch (error) {
@@ -31,7 +31,7 @@ async function pegarTodosHistoricoPeloCpf(cpf){
     try { 
      
      await db.connect();
-     const result =  await db.query(`select * from historico where id_cpf = ${cpf}`);
+     const result =  await db.query(`select * from historicos where id_cpf = ${cpf}`);
      return result;
 
      
@@ -48,7 +48,7 @@ async function obterFuncionarioPeloId(cpf){
     const id1 = cpf;    
     try {
      await db.connect();
-     const result =  await db.query(`SELECT * FROM funcionario WHERE cpf = ${id1}`);
+     const result =  await db.query(`SELECT * FROM funcionarios WHERE cpf = ${id1}`);
      return result;
 
     } catch (error) {
@@ -63,7 +63,7 @@ async function deletarFuncionario(cpf){
    
     try {
      await db.connect();
-     const result =  await db.query(`DELETE  FROM funcionario WHERE cpf = ${cpf}`);
+     const result =  await db.query(`DELETE  FROM funcionarios WHERE cpf = ${cpf}`);
      return result;
 
     } catch (error) {
@@ -78,7 +78,7 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
     try {
         await db.connect();
-        const result =  await db.query(`insert into funcionario (cpf,nome,senha,cargo) values(${cpf},'${nome}',${senha},'${cargo}')`);
+        const result =  await db.query(`insert into funcionarios (cpf,nome,senha,cargo) values('${cpf}','${nome}','${senha}','${cargo}')`);
         return result;
         
     } catch (error) {
@@ -93,7 +93,7 @@ async function atualizarFuncionario(cpf,nome){
 
     try {
      await db.connect();
-     const result =  await db.query(`UPDATE funcionario SET nome = '${nome}' WHERE cpf = ${cpf}`);
+     const result =  await db.query(`UPDATE funcionarios SET nome = '${nome}' WHERE cpf = ${cpf}`);
      return result;
 
     } catch (error) {
