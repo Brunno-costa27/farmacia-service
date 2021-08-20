@@ -5,16 +5,18 @@ module.exports = (app, repository) => {
         const funcionarioExiste = await repository.pegarTodosFuncionario();
 
         const { cpf,nome,senha,cargo } = req.body;
-        console.log(cpf,nome,senha,cargo);
+        var convertidoCpf = parseInt(cpf);
+        var convertidoSenha = parseInt(senha);
+        console.log(convertidoCpf,nome,convertidoSenha,cargo);
 
-        const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
+        const alreadyExists = funcionarioExiste.some((func) => func.cpf === convertidoCpf);
 
         if (alreadyExists) {
-            return res.status(400).json({ error: 'funcionario already exists' });
+            return res.json({ error: 'funcionario already exists' });
         }
         try {
             const funcionario = await repository.cadastrarFuncionario(cpf,nome,senha,cargo);
-            res.status(201).json(funcionario);
+            res.status(201).json({message: 'cadastrado com sucesso!'});
         } catch (error) {
             res.status(401).json({ message: "erro ao cadastrar paciente" });
         }
@@ -25,7 +27,7 @@ module.exports = (app, repository) => {
 
         try {
             const paciente = await repository.pegarTodosFuncionario();
-            res.json(paciente);
+            res.status(200).json(paciente);
         } catch (error) {
             res.status(400).send();
         }
@@ -65,6 +67,16 @@ module.exports = (app, repository) => {
 
     });
 
+    app.get('/historico', async (req, res) => {
+        try {
+            const paciente = await repository.pegarTodosHistorico();
+            res.status(200).json(paciente);
+        } catch (error) {
+            res.status(400).send();
+        }
+
+    });
+
     app.put('/funcionario/:cpf', async (req, res) => {
         const cpf = req.params.cpf;
         const { nome } = req.body;
@@ -79,14 +91,15 @@ module.exports = (app, repository) => {
     app.post('/autenticacao', async (req, res) => {
 
         const funcionarioExiste = await repository.pegarTodosFuncionario();
-
         const { cpf, senha } = req.body;
-
-        const funcionarioAlreadyExists = funcionarioExiste.find((user) => user.cpf === cpf && user.senha === senha);
+        var convertidoCpf = parseInt(cpf);
+        var convertidoSenha = parseInt(senha);
+        console.log(cpf,senha);
+        const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === convertidoCpf && user.senha === convertidoSenha);
         if(funcionarioAlreadyExists){
-            res.status(200).json(funcionarioAlreadyExists);
+            res.status(200).json({message: "seja bem vindo!"});
         }else{
-            res.status(400).json({message: "paciente não existe!"});
+            res.json({message: "paciente não existe!"});
         }
 
     });

@@ -78,7 +78,7 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
     try {
         await db.connect();
-        const result =  await db.query(`insert into funcionario (cpf,nome,senha,cargo) values('${cpf}','${nome}',${senha},'${cargo}')`);
+        const result =  await db.query(`insert into funcionario (cpf,nome,senha,cargo) values(${cpf},'${nome}',${senha},'${cargo}')`);
         return result;
         
     } catch (error) {
