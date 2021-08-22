@@ -31,7 +31,7 @@ async function pegarTodosHistoricoPeloCpf(cpf){
     try { 
      
      await db.connect();
-     const result =  await db.query(`select * from historicos where id_cpf = ${cpf}`);
+     const result =  await db.query(`select * from historicos where id_cpf = '${cpf}'`);
      return result;
 
      
@@ -45,10 +45,9 @@ async function pegarTodosHistoricoPeloCpf(cpf){
 
 async function obterFuncionarioPeloId(cpf){
 
-    const id1 = cpf;    
     try {
      await db.connect();
-     const result =  await db.query(`SELECT * FROM funcionarios WHERE cpf = ${id1}`);
+     const result =  await db.query(`SELECT * FROM funcionarios WHERE cpf = '${cpf}'`);
      return result;
 
     } catch (error) {
@@ -63,7 +62,7 @@ async function deletarFuncionario(cpf){
    
     try {
      await db.connect();
-     const result =  await db.query(`DELETE  FROM funcionarios WHERE cpf = ${cpf}`);
+     const result =  await db.query(`DELETE  FROM funcionarios WHERE cpf = '${cpf}'`);
      return result;
 
     } catch (error) {
@@ -93,12 +92,12 @@ async function atualizarFuncionario(cpf,nome){
 
     try {
      await db.connect();
-     const result =  await db.query(`UPDATE funcionarios SET nome = '${nome}' WHERE cpf = ${cpf}`);
+     const result =  await db.query(`UPDATE funcionarios SET nome = '${nome}' WHERE cpf = '${cpf}'`);
      return result;
 
     } catch (error) {
         
-        console.log("deu errado na função deletar!");
+        console.log("deu errado na função atualizar!");
     }
 }
 

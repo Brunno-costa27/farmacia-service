@@ -10,7 +10,7 @@ module.exports = (app, repository) => {
         const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
         if (alreadyExists) {
-            return res.json({ error: 'funcionario already exists' });
+            return res.status(400).json({ error: 'funcionario already exists' });
         }
         try {
             const funcionario = await repository.cadastrarFuncionario(cpf,nome,senha,cargo);
@@ -45,32 +45,53 @@ module.exports = (app, repository) => {
 
     app.delete('/funcionario/:cpf', async (req, res) => {
 
+        const funcionarioExiste = await repository.pegarTodosFuncionario();
         const cpf = req.params.cpf;
-        try {
-            const funcionario = await repository.deletarFuncionario(cpf);
-            res.json(funcionario);
-        } catch (error) {
-            res.status(400).send();
+        const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === cpf);
+        if(!funcionarioAlreadyExists){
+            res.json({message: 'Funcionário não existe!'});
+
+        }else{
+
+            try {
+                const funcionario = await repository.deletarFuncionario(cpf);
+                res.json({message: 'Apagado com sucesso!'});
+            } catch (error) {
+                res.status(400).send();
+            }
         }
     });
 
     app.get('/historico/:cpf', async (req, res) => {
+        const funcionarioExiste = await repository.pegarTodosHistorico();
         const cpf = req.params.cpf;
-        try {
-            const paciente = await repository.pegarTodosHistoricoPeloCpf(cpf);
-            res.json(paciente);
-        } catch (error) {
-            res.status(400).send();
+        const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.id_cpf === cpf);
+        if(!funcionarioAlreadyExists){
+            res.json({message: 'Não existe historico para esse funcionario!'});
+        }else{
+
+            try {
+                const paciente = await repository.pegarTodosHistoricoPeloCpf(cpf);
+                res.json(paciente);
+            } catch (error) {
+                res.status(400).send();
+            }
         }
 
     });
 
     app.get('/historico', async (req, res) => {
-        try {
-            const paciente = await repository.pegarTodosHistorico();
-            res.status(200).json(paciente);
-        } catch (error) {
-            res.status(400).send();
+        const funcionarioExiste = await repository.pegarTodosHistorico();
+        if(funcionarioExiste === {}){
+            res.json({message: 'Não existe historico para esse funcionario!'});
+        }else{
+
+            try {
+                const paciente = await repository.pegarTodosHistorico();
+                res.json(paciente);
+            } catch (error) {
+                res.status(400).send();
+            }
         }
 
     });
