@@ -90,10 +90,8 @@ module.exports = (app, repository) => {
 
         const funcionarioExiste = await repository.pegarTodosFuncionario();
         const { cpf, senha } = req.body;
-        var convertidoCpf = parseInt(cpf);
-        var convertidoSenha = parseInt(senha);
         console.log(cpf,senha);
-        const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === convertidoCpf && user.senha === convertidoSenha);
+        const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === cpf && user.senha === senha);
         if(funcionarioAlreadyExists){
             res.status(200).json({message: "seja bem vindo!"});
         }else{
