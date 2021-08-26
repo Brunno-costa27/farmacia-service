@@ -82,8 +82,9 @@ module.exports = (app, repository) => {
 
     app.get('/historico', async (req, res) => {
         const funcionarioExiste = await repository.pegarTodosHistorico();
-        if(funcionarioExiste === {}){
-            res.json({message: 'Não existe historico para esse funcionario!'});
+        console.log(funcionarioExiste);
+        if(funcionarioExiste === []){
+            res.json({message: 'Não existe historico de requisições!'});
         }else{
 
             try {
