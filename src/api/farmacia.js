@@ -10,13 +10,33 @@ module.exports = (app, repository) => {
         const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
         if (alreadyExists) {
-            return res.status(400).json({ error: 'funcionario already exists' });
+            return res.json({ error: 'funcionario already exists' });
         }
         try {
             const funcionario = await repository.cadastrarFuncionario(cpf,nome,senha,cargo);
             res.status(201).json({message: 'cadastrado com sucesso!'});
         } catch (error) {
             res.status(401).json({ message: "erro ao cadastrar paciente" });
+        }
+
+    });
+
+    app.post('/requisicao', async (req, res) => {
+
+        // const funcionarioExiste = await repository.pegarTodosFuncionario();
+
+        const {id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf } = req.body;
+
+        // const alreadyExists = funcionarioExiste.some((func) => func.cpf === id_cpf);
+
+        // if (alreadyExists) {
+        //     return res.json({ error: 'funcionario already exists' });
+        // }
+        try {
+            const funcionario = await repository.cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf);
+            res.status(201).json({message: 'cadastrado com sucesso!'});
+        } catch (error) {
+            res.status(401).json({ message: "erro ao cadastrar requisição" });
         }
 
     });
@@ -82,7 +102,6 @@ module.exports = (app, repository) => {
 
     app.get('/historico', async (req, res) => {
         const funcionarioExiste = await repository.pegarTodosHistorico();
-        console.log(funcionarioExiste);
         if(funcionarioExiste === []){
             res.json({message: 'Não existe historico de requisições!'});
         }else{
@@ -112,7 +131,6 @@ module.exports = (app, repository) => {
 
         const funcionarioExiste = await repository.pegarTodosFuncionario();
         const { cpf, senha } = req.body;
-        console.log(cpf,senha);
         const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === cpf && user.senha === senha);
         if(funcionarioAlreadyExists){
             res.status(200).json({message: "seja bem vindo!"});

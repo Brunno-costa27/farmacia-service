@@ -87,6 +87,21 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
 }
 
+async function cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf){
+
+
+    try {
+        await db.connect();
+        const result =  await db.query(`insert into historicos (id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf) values(${id_historico},'${medicamento}',${valor},'${paciente}','${data_historico}','${telefone}','${id_cpf}')`);
+        return result;
+        
+    } catch (error) {
+       
+        console.log("deu errado ao cadastrar requisição!");
+    }
+
+}
+
 async function atualizarFuncionario(cpf,nome){
 
 
@@ -101,4 +116,4 @@ async function atualizarFuncionario(cpf,nome){
     }
 }
 
-module.exports = { pegarTodosHistoricoPeloCpf,obterFuncionarioPeloId,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario}
+module.exports = { pegarTodosHistoricoPeloCpf,obterFuncionarioPeloId,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario,cadastrarRequisicao}
