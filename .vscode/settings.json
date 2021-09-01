@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/8c903688-fa17-4f16-8d0b-bac46e84863a/resourceGroups/ApiTeste/providers/Microsoft.Web/sites/ApiPaciente",
+    "appService.deploySubpath": "."
+}

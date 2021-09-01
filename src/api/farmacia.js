@@ -6,6 +6,7 @@ module.exports = (app, repository) => {
 
         const { cpf,nome,senha,cargo } = req.body;
         console.log(cpf,nome,senha,cargo);
+        
 
         const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
@@ -26,7 +27,7 @@ module.exports = (app, repository) => {
         // const funcionarioExiste = await repository.pegarTodosFuncionario();
 
         const {id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf } = req.body;
-
+        console.log(id_historico, medicamento, valor, paciente, data_historico, telefone, id_cpf);
         // const alreadyExists = funcionarioExiste.some((func) => func.cpf === id_cpf);
 
         // if (alreadyExists) {
@@ -34,7 +35,7 @@ module.exports = (app, repository) => {
         // }
         try {
             const funcionario = await repository.cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf);
-            res.status(201).json({message: 'cadastrado com sucesso!'});
+            res.status(201).json({message: 'requisição cadastrada com sucesso!'});
         } catch (error) {
             res.status(401).json({ message: "erro ao cadastrar requisição" });
         }
