@@ -6,7 +6,6 @@ module.exports = (app, repository) => {
 
         const { cpf,nome,senha,cargo } = req.body;
         console.log(cpf,nome,senha,cargo);
-        
 
         const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
