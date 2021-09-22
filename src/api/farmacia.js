@@ -25,15 +25,15 @@ module.exports = (app, repository) => {
 
         // const funcionarioExiste = await repository.pegarTodosFuncionario();
 
-        const {id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf } = req.body;
-        console.log(id_historico, medicamento, valor, paciente, data_historico, telefone, id_cpf);
+        const {id_historico,medicamento,valor,data_historico,telefone,id_cpf } = req.body;
         // const alreadyExists = funcionarioExiste.some((func) => func.cpf === id_cpf);
-
+        const converte = parseInt(id_historico);
+        console.log( converte, medicamento, valor, data_historico, telefone, id_cpf);
         // if (alreadyExists) {
         //     return res.json({ error: 'funcionario already exists' });
         // }
         try {
-            const funcionario = await repository.cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf);
+            const funcionario = await repository.cadastrarRequisicao(id_historico,medicamento,valor,data_historico,telefone,id_cpf);
             res.status(201).json({message: 'requisição cadastrada com sucesso!'});
         } catch (error) {
             res.status(401).json({ message: "erro ao cadastrar requisição" });
@@ -102,6 +102,7 @@ module.exports = (app, repository) => {
 
     app.get('/historico', async (req, res) => {
         const funcionarioExiste = await repository.pegarTodosHistorico();
+        console.log(funcionarioExiste);
         if(funcionarioExiste === []){
             res.json({message: 'Não existe historico de requisições!'});
         }else{
