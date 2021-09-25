@@ -87,12 +87,12 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
 }
 
-async function cadastrarRequisicao(id_historico,medicamento,valor,data_historico,telefone,id_cpf){
+async function cadastrarRequisicao(id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf){
 
 
     try {
         await db.connect();
-        const result =  await db.query(`insert into historicos (id_historico,medicamento,valor,data_historico,telefone,id_cpf) values(${id_historico},'${medicamento}','${valor}','${data_historico}','${telefone}','${id_cpf}')`);
+        const result =  await db.query(`insert into historicos (id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf) values(${id_cadastro},${id_historico},'${medicamento}','${valor}','${data_historico}','${telefone}','${id_cpf}')`);
         return result;
         
     } catch (error) {
