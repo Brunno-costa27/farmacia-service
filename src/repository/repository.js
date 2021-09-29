@@ -30,7 +30,7 @@ async function pegarTodosAuditoria(){
 
     try {   
      await db.connect();
-     const result =  await db.query("SELECT * FROM funcionario_auditoria_completa");
+     const result =  await db.query("SELECT valor_novo,data_changed FROM funcionario_auditoria_completa WHERE operacao = 'INSERT'");
      return result;
 
     } catch (error) {

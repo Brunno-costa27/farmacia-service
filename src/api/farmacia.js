@@ -78,7 +78,6 @@ module.exports = (app, repository) => {
 
         try {
             const paciente = await repository.pegarTodosAuditoria();
-            // console.log(paciente);
             res.status(200).json(paciente);
         } catch (error) {
             res.status(400).send();
