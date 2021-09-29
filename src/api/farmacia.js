@@ -5,7 +5,7 @@ module.exports = (app, repository) => {
         const funcionarioExiste = await repository.pegarTodosFuncionario();
 
         const { cpf, nome, senha, cargo } = req.body;
-        console.log(cpf, nome, senha, cargo);
+        // console.log(cpf, nome, senha, cargo);
 
         const alreadyExists = funcionarioExiste.some((func) => func.cpf === cpf);
 
@@ -29,7 +29,7 @@ module.exports = (app, repository) => {
         // const alreadyExists = funcionarioExiste.some((func) => func.cpf === id_cpf);
         const converte = parseInt(id_historico);
         const converteId = parseInt(id_cadastro);
-        console.log(id_cadastro, id_historico, medicamento, valor, data_historico, telefone, id_cpf);
+        // console.log(id_cadastro, id_historico, medicamento, valor, data_historico, telefone, id_cpf);
         // if (alreadyExists) {
         //     return res.json({ error: 'funcionario already exists' });
         // }
@@ -50,7 +50,7 @@ module.exports = (app, repository) => {
         // const alreadyExists = funcionarioExiste.some((func) => func.cpf === id_cpf);
         const converte = parseInt(id_historico);
         const converteId = parseInt(id_cadastro);
-        console.log(id_cadastro, converte, medicamento, valor, data_historico, telefone, id_cpf);
+        // console.log(id_cadastro, converte, medicamento, valor, data_historico, telefone, id_cpf);
         // if (alreadyExists) {
         //     return res.json({ error: 'funcionario already exists' });
         // }
@@ -74,6 +74,18 @@ module.exports = (app, repository) => {
 
     });
 
+    app.get('/auditoria', async (req, res) => {
+
+        try {
+            const paciente = await repository.pegarTodosAuditoria();
+            // console.log(paciente);
+            res.status(200).json(paciente);
+        } catch (error) {
+            res.status(400).send();
+        }
+
+    });
+
     app.get('/funcionario/:cpf', async (req, res) => {
 
         const cpf = req.params.cpf;
@@ -89,9 +101,10 @@ module.exports = (app, repository) => {
 
         const funcionarioExiste = await repository.pegarTodosFuncionario();
         const cpf = req.params.cpf;
+        console.log(cpf);
         const funcionarioAlreadyExists = funcionarioExiste.some((user) => user.cpf === cpf);
         if (!funcionarioAlreadyExists) {
-            res.json({ message: 'Funcionário não existe!' });
+            res.json({ error: 'Funcionário não existe!' });
 
         } else {
 
@@ -114,7 +127,7 @@ module.exports = (app, repository) => {
 
             try {
                 const paciente = await repository.pegarTodosHistoricoPeloCpf(cpf);
-                res.json(paciente);
+                res.status(200).json(paciente);
             } catch (error) {
                 res.status(400).send();
             }
@@ -124,14 +137,14 @@ module.exports = (app, repository) => {
 
     app.get('/historico', async (req, res) => {
         const funcionarioExiste = await repository.pegarTodosHistorico();
-        console.log(funcionarioExiste);
+        // console.log(funcionarioExiste);
         if (funcionarioExiste === []) {
             res.json({ message: 'Não existe historico de requisições!' });
         } else {
 
             try {
                 const paciente = await repository.pegarTodosHistorico();
-                res.json(paciente);
+                res.status(200).json(paciente);
             } catch (error) {
                 res.status(400).send();
             }
@@ -143,12 +156,12 @@ module.exports = (app, repository) => {
         const funcionarioExiste = await repository.pegarTodosPreco();
         // console.log(funcionarioExiste);
         if (funcionarioExiste === []) {
-            res.json({ message: 'Não existe historico de requisições!' });
+            res.status(400).json({ message: 'Não existe historico de requisições!' });
         } else {
 
             try {
                 const paciente = await repository.pegarTodosPreco();
-                res.json(paciente);
+                res.status(200).json(paciente);
             } catch (error) {
                 res.status(400).send();
             }

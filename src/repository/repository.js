@@ -26,6 +26,19 @@ async function pegarTodosPreco(){
 
 }
 
+async function pegarTodosAuditoria(){
+
+    try {   
+     await db.connect();
+     const result =  await db.query("SELECT * FROM funcionario_auditoria_completa");
+     return result;
+
+    } catch (error) {
+        console.log("deu errado na função pegar todos!");
+    }
+
+}
+
 async function pegarTodosFuncionario(){
 
     try {   
@@ -145,4 +158,4 @@ async function atualizarFuncionario(cpf,nome){
     }
 }
 
-module.exports = { pegarTodosHistoricoPeloCpf,obterFuncionarioPeloId,pegarTodosPreco,cadastrarPreco,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario,cadastrarRequisicao}
+module.exports = { pegarTodosHistoricoPeloCpf,pegarTodosAuditoria,obterFuncionarioPeloId,pegarTodosPreco,cadastrarPreco,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario,cadastrarRequisicao}
