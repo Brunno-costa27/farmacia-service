@@ -13,6 +13,32 @@ async function pegarTodosHistorico(){
 
 }
 
+async function pegarTodosPreco(){
+
+    try {   
+     await db.connect();
+     const result =  await db.query("SELECT * FROM historicos_preco");
+     return result;
+
+    } catch (error) {
+        console.log("deu errado na função pegar todos!");
+    }
+
+}
+
+async function pegarTodosAuditoria(){
+
+    try {   
+     await db.connect();
+     const result =  await db.query("SELECT valor_novo,data_changed FROM funcionario_auditoria_completa WHERE operacao = 'INSERT'");
+     return result;
+
+    } catch (error) {
+        console.log("deu errado na função pegar todos!");
+    }
+
+}
+
 async function pegarTodosFuncionario(){
 
     try {   
@@ -87,12 +113,12 @@ async function cadastrarFuncionario(cpf,nome,senha,cargo){
 
 }
 
-async function cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf){
+async function cadastrarRequisicao(id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf){
 
 
     try {
         await db.connect();
-        const result =  await db.query(`insert into historicos (id_historico,medicamento,valor,paciente,data_historico,telefone,id_cpf) values(${id_historico},'${medicamento}','${valor}','${paciente}','${data_historico}','${telefone}','${id_cpf}')`);
+        const result =  await db.query(`insert into historicos (id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf) values(${id_cadastro},${id_historico},'${medicamento}','${valor}','${data_historico}','${telefone}','${id_cpf}')`);
         return result;
         
     } catch (error) {
@@ -101,6 +127,22 @@ async function cadastrarRequisicao(id_historico,medicamento,valor,paciente,data_
     }
 
 }
+
+async function cadastrarPreco(id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf){
+
+
+    try {
+        await db.connect();
+        const result =  await db.query(`insert into historicos_preco (id_cadastro,id_historico,medicamento,valor,data_historico,telefone,id_cpf) values(${id_cadastro},${id_historico},'${medicamento}','${valor}','${data_historico}','${telefone}','${id_cpf}')`);
+        return result;
+        
+    } catch (error) {
+       
+        console.log("deu errado ao cadastrar preço!");
+    }
+
+}
+
 
 async function atualizarFuncionario(cpf,nome){
 
@@ -116,4 +158,4 @@ async function atualizarFuncionario(cpf,nome){
     }
 }
 
-module.exports = { pegarTodosHistoricoPeloCpf,obterFuncionarioPeloId,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario,cadastrarRequisicao}
+module.exports = { pegarTodosHistoricoPeloCpf,pegarTodosAuditoria,obterFuncionarioPeloId,pegarTodosPreco,cadastrarPreco,deletarFuncionario,cadastrarFuncionario,pegarTodosHistorico,atualizarFuncionario,pegarTodosFuncionario,cadastrarRequisicao}
