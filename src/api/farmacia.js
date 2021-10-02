@@ -151,7 +151,7 @@ module.exports = (app, repository) => {
 
     });
 
-    app.get('/historico_preco', async (req, res) => {
+    app.get('/historicoDePreco', async (req, res) => {
         const funcionarioExiste = await repository.pegarTodosPreco();
         // console.log(funcionarioExiste);
         if (funcionarioExiste === []) {
